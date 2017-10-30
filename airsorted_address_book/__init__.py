@@ -1,9 +1,8 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-basedir = os.path.abspath(os.path.dirname(__file__))
+from airsorted_address_book.models import db
+import airsorted_address_book.views
+from config import basedir
 
 def create_app(config_name=None):
     app = Flask(__name__)
@@ -16,4 +15,5 @@ def create_app(config_name=None):
     db.init_app(app)
     db.app = app
     db.create_all()
+
     return app
