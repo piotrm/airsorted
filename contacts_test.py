@@ -52,7 +52,7 @@ class ContactsTestCase(unittest.TestCase):
         self.assertIn('Albert', response_first_names)
         self.assertNotIn('Issaac', response_first_names)
 
-    def test_create(self):
+    def test_create_full_params(self):
         contact_params = {
             'first_name': 'Olaf',
             'last_name': 'Snowman',
@@ -72,6 +72,42 @@ class ContactsTestCase(unittest.TestCase):
         self.assertEqual(response_data['last_name'], 'Snowman')
         email_addresses = list(map(lambda x: x['address'], response_data['emails']))
         self.assertIn('olaf@abcde.com', email_addresses)
+
+    def test_create_no_params(self):
+        contact_params = {}
+        response = self.client().post(
+            '/api/v1/contacts',
+            data=json.dumps(contact_params),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_incomplete_params(self):
+        contact_params = {
+            'emails': [
+                'olaf@abcde.com',
+                'osnowman@abcde.com'
+            ]
+        }
+        response = self.client().post(
+            '/api/v1/contacts',
+            data=json.dumps(contact_params),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_incorrect_params(self):
+        contact_params = {
+            'first_name': 'Olaf',
+            'last_name': 'Snowman',
+            'emails': 'olaf@abcde.com'
+        }
+        response = self.client().post(
+            '/api/v1/contacts',
+            data=json.dumps(contact_params),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_update(self):
         contact = self.create_test_contact('Alfred', 'Nobel')

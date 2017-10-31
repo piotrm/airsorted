@@ -1,37 +1,39 @@
 from .models import Contact, ContactSchema, Email
+from .validators import EmailParamsValidator
 from flask import abort, request, json, jsonify
 from IPython import embed
 
 def show(id):
-    schema = ContactSchema()
     contact = Contact.query.get(id)
     if not contact:
         abort(404)
 
-    data, _ = schema.dump(contact)
+    data, _ = ContactSchema().dump(contact)
     return jsonify(data), 200
 
 def index():
-    schema = ContactSchema(many=True)
     if 'email' in request.args:
         contacts = Contact.query.join(Email). \
             filter_by(address=request.args.get('email'))
     else:
         contacts = Contact.query.all()
 
-    data, _ = schema.dump(contacts)
+    data, _ = ContactSchema(many=True).dump(contacts)
     return jsonify(data), 200
 
 def create():
-    schema = ContactSchema()
-    if (not request.get_json() or 'first_name' not in request.get_json() or
-        'last_name' not in request.get_json() or 'emails' not in request.get_json()):
-        abort(400)
+    emails = request.get_json().get('emails')
+
+    if (not request.get_json() or
+        (emails and not EmailParamsValidator.check(emails)) or
+        ('first_name' not in request.get_json() and
+        'last_name' not in request.get_json() and
+        'company' not in request.get_json())):
+        return abort(400)
 
     first_name = request.get_json().get('first_name')
     last_name = request.get_json().get('last_name')
     company = request.get_json().get('company')
-    emails = request.get_json().get('emails')
     contact = Contact(
         first_name=first_name,
         last_name=last_name,
@@ -43,14 +45,15 @@ def create():
         contact.emails.append(email)
     contact.save()
 
-    data, _ = schema.dump(contact)
+    data, _ = ContactSchema().dump(contact)
     return jsonify(data), 201
 
 def update(id):
-    schema = ContactSchema()
-
     contact = Contact.query.get(id)
-    if not contact:
+    emails = request.get_json().get('emails')
+
+    if (not contact or not request.get_json() or
+        (emails and not EmailParamsValidator.check(emails))):
         abort(400)
 
     contact.first_name = request.get_json().get('first_name', contact.first_name)
@@ -71,7 +74,7 @@ def update(id):
             contact.emails.append(email)
     contact.save()
 
-    data, _ = schema.dump(contact)
+    data, _ = ContactSchema().dump(contact)
     return jsonify(data), 200
 
 def delete(id):
