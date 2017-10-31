@@ -6,8 +6,8 @@ ma = Marshmallow()
 
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    first_name = db.Column(db.String(80), nullable = False)
-    last_name = db.Column(db.String(80), nullable = False)
+    first_name = db.Column(db.String(80))
+    last_name = db.Column(db.String(80))
     company = db.Column(db.String(140))
     emails = db.relationship('Email',
         backref='contact', lazy='dynamic', cascade='save-update,delete')
