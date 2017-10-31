@@ -1,0 +1,51 @@
+[
+  {
+    "company": null, 
+    "emails": [
+      {
+        "address": "p@m.com"
+      }
+    ], 
+    "first_name": "Piotr", 
+    "last_name": "Matuszkiewicz"
+  }, 
+  {
+    "company": "MI5",
+    "emails": [
+      {
+        "address": "james@bond.com"
+      }, 
+      {
+        "address": "jbond@gmail.com"
+      }
+    ], 
+    "first_name": "James",
+    "last_name": "Bond"
+  }, 
+  {
+    "company": "Orlen",
+    "emails": [
+      {
+        "address": "jan@kowalski.com"
+      }, 
+      {
+        "address": "jankowalski@gmail.com"
+      }
+    ], 
+    "first_name": "Jan",
+    "last_name": "Kowalski"
+  }, 
+  {
+    "company": "Biedronka",
+    "emails": [
+      {
+        "address": "rysiek@gmail.com"
+      }, 
+      {
+        "address": "rysiek@yahoo.com"
+      }
+    ], 
+    "first_name": "Rysiek",
+    "last_name": "Nowak"
+  }
+]
