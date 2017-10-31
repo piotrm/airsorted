@@ -1,8 +1,8 @@
 import unittest
 import os
 import json
-from airsorted_address_book import create_app, db
-from airsorted_address_book.models import Contact, Email
+from airsorted_address_book import create_app
+from airsorted_address_book.models import db, Contact, Email
 
 class ContactsTestCase(unittest.TestCase):
     def setUp(self):
