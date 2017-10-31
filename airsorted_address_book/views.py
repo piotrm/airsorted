@@ -1,5 +1,6 @@
 from .models import Contact, ContactSchema, Email
 from flask import abort, request, json, jsonify
+from IPython import embed
 
 def show(id):
     schema = ContactSchema()
@@ -12,7 +13,11 @@ def show(id):
 
 def index():
     schema = ContactSchema(many=True)
-    contacts = Contact.query.all()
+    if 'email' in request.args:
+        contacts = Contact.query.join(Email). \
+            filter_by(address=request.args.get('email'))
+    else:
+        contacts = Contact.query.all()
 
     data, _ = schema.dump(contacts)
     return jsonify(data), 200

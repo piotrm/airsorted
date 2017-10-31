@@ -38,8 +38,19 @@ class ContactsTestCase(unittest.TestCase):
         response = self.client().get('/api/v1/contacts')
         self.assertEqual(response.status_code, 200)
         response_data = json.loads(response.data)
-        self.assertEqual(response_data[0]['first_name'], 'Issaac')
-        self.assertEqual(response_data[1]['first_name'], 'Albert')
+        response_first_names = list(map(lambda x: x['first_name'], response_data))
+        self.assertIn('Albert', response_first_names)
+        self.assertIn('Issaac', response_first_names)
+
+    def test_index_with_parameter(self):
+        contact1 = self.create_test_contact('Issaac', 'Newton')
+        contact2 = self.create_test_contact('Albert', 'Einstein')
+        response = self.client().get('/api/v1/contacts?email=Albert@Einstein.pl')
+        self.assertEqual(response.status_code, 200)
+        response_data = json.loads(response.data)
+        response_first_names = list(map(lambda x: x['first_name'], response_data))
+        self.assertIn('Albert', response_first_names)
+        self.assertNotIn('Issaac', response_first_names)
 
     def test_create(self):
         contact_params = {
