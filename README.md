@@ -63,7 +63,15 @@ $ python contacts_test.py
 ```
 or run a script that will execute all of them:
 ```
-./test.sh
+$ ./test.sh
+```
+or use nose (https://nose.readthedocs.io/en/latest/) to execute all tests in one go:
+```
+$ nosetests
+```
+__NOTE__: if the above ends up with failure try:
+```
+$ <name_of_your_virtualenv>/bin/nosetests
 ```
 
 ### Running the app
@@ -133,7 +141,11 @@ Apparently SQLAlchemy offers eager loading out-of-the box, so there is no action
 There is almost no validation at all except for beforementioned email validation. There is no presence requirement for any particular fields for contact, nor there is any special formatting required. It may be the field for discussion. If I were to add the validation I would probably start from extending Marshmallow schemas in __model.py__ as described here: http://marshmallow.readthedocs.io/en/latest/quickstart.html#validation
 
 ### Tests
-There are two separate files with tests: __validators_test.py__ and __contacts_test.py__. First of them consist of tests for custom email validator and the other consist of the tests for view functions. They can be either run separately or together with __test.sh__. It is just a makeshift solution, as I was supposed to use __nose__ runner (https://nose.readthedocs.io/en/latest/) but I have had some problems with setting it up to on my machine. There is also one helper method in __contacts_test.py__ that should probably be moved outside of __ContactsTestCase__ class, but I have yet to figure out where to put it.
+There are two separate files with tests: __validators_test.py__ and __contacts_test.py__. First of them consist of tests for custom email validator and the other consist of the tests for view functions. They can be either run separately or together with __test.sh__. It is just a makeshift solution, as I was supposed to use __nose__ runner (https://nose.readthedocs.io/en/latest/) but I have had some problems with setting it up to on my machine.
+
+There is also one helper method in __contacts_test.py__ that should probably be moved outside of __ContactsTestCase__ class, but I have yet to figure out where to put it.
+
+_Update_: __nose__ has been installed - it is now usable. In required one additional change in __ContactsTestCase__ - the helper method creating mock contacts had to be renamed from __create_test_contact__ to __create_mock_contact__ because apparently __nose__ treats any method containing __test__ placed anywhere in it's name as a test method. This is unusual, as __unittest__'s TestLoader only looks for __test__ prefix.
 
 ### Seeds
 I have used __Flask-script__ in order to prepare a mechanism for seeding the DB. It seemed to be the most reasonable solution that was available out of the box. The mechanism loads the data from __seeds.json__ file and creates objects in the DB.
@@ -142,4 +154,4 @@ I have used __Flask-script__ in order to prepare a mechanism for seeding the DB.
 1. ~~Add pagination to index~~
 2. ~~Make sure that query in index is not prone to n+1 query issue~~
 3. Utilize __marshmallow-jsonapi__ (https://github.com/marshmallow-code/marshmallow-jsonapi) in order to deliver JSON:API compliant responses
-4. Replace `test.sh` with __nose__ (https://nose.readthedocs.io/en/latest/)
+4. ~~Replace `test.sh` with __nose__ (https://nose.readthedocs.io/en/latest/)~~
