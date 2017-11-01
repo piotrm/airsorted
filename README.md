@@ -136,7 +136,7 @@ There are two separate files with tests: __validators_test.py__ and __contacts_t
 I have used __Flask-script__ in order to prepare a mechanism for seeding the DB. It seemed to be the most reasonable solution that was available out of the box. The mechanism loads the data from __seeds.json__ file and creates objects in the DB.
 
 ## Further improvements
-1. Add pagination to index
+~~1. Add pagination to index~~
 2. Make sure that query in index is not prone to n+1 query issue
 3. Utilize __marshmallow-jsonapi__ (https://github.com/marshmallow-code/marshmallow-jsonapi) in order to deliver JSON:API compliant responses
 4. Replace `test.sh` with __nose__ (https://nose.readthedocs.io/en/latest/)
