@@ -12,7 +12,7 @@ class ContactsTestCase(unittest.TestCase):
             db.create_all()
 
     ''' Helper method '''
-    def create_test_contact(self, first_name, last_name):
+    def create_mock_contact(self, first_name, last_name):
         contact = Contact(
             first_name=first_name,
             last_name=last_name
@@ -24,7 +24,7 @@ class ContactsTestCase(unittest.TestCase):
         return contact
 
     def test_show(self):
-        contact = self.create_test_contact('Aaa', 'Bbb')
+        contact = self.create_mock_contact('Aaa', 'Bbb')
         response = self.client().get(
             '/api/v1/contacts/{}'.format(contact.id))
         self.assertEqual(response.status_code, 200)
@@ -33,8 +33,8 @@ class ContactsTestCase(unittest.TestCase):
         self.assertEqual(response_data['last_name'], 'Bbb')
 
     def test_index(self):
-        contact1 = self.create_test_contact('Issaac', 'Newton')
-        contact2 = self.create_test_contact('Albert', 'Einstein')
+        contact1 = self.create_mock_contact('Issaac', 'Newton')
+        contact2 = self.create_mock_contact('Albert', 'Einstein')
         response = self.client().get('/api/v1/contacts')
         self.assertEqual(response.status_code, 200)
         response_data = json.loads(response.data)
@@ -43,8 +43,8 @@ class ContactsTestCase(unittest.TestCase):
         self.assertIn('Issaac', response_first_names)
 
     def test_index_with_parameter(self):
-        contact1 = self.create_test_contact('Issaac', 'Newton')
-        contact2 = self.create_test_contact('Albert', 'Einstein')
+        contact1 = self.create_mock_contact('Issaac', 'Newton')
+        contact2 = self.create_mock_contact('Albert', 'Einstein')
         response = self.client().get('/api/v1/contacts?email=Albert@Einstein.pl')
         self.assertEqual(response.status_code, 200)
         response_data = json.loads(response.data)
@@ -110,7 +110,7 @@ class ContactsTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_update(self):
-        contact = self.create_test_contact('Alfred', 'Nobel')
+        contact = self.create_mock_contact('Alfred', 'Nobel')
         response = self.client().put(
             '/api/v1/contacts/{}'.format(contact.id),
             data=json.dumps({'first_name': 'Sheldon'}),
@@ -122,7 +122,7 @@ class ContactsTestCase(unittest.TestCase):
         self.assertEqual(response_data['last_name'], 'Nobel')
 
     def test_delete(self):
-        contact = self.create_test_contact('Nikola', 'Tesla')
+        contact = self.create_mock_contact('Nikola', 'Tesla')
         response = self.client().delete(
             '/api/v1/contacts/{}'.format(contact.id))
         self.assertEqual(response.status_code, 200)
