@@ -12,11 +12,13 @@ def show(id):
     return jsonify(data), 200
 
 def index():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
     if 'email' in request.args:
         contacts = Contact.query.join(Email). \
             filter_by(address=request.args.get('email'))
     else:
-        contacts = Contact.query.all()
+        contacts = Contact.query.paginate(page,per_page).items
 
     data, _ = ContactSchema(many=True).dump(contacts)
     return jsonify(data), 200
@@ -62,7 +64,7 @@ def update(id):
     emails = request.get_json().get('emails')
 
     if emails:
-        emails_to_delete = contact.emails.filter(~(Email.address.in_(emails)))
+        emails_to_delete = contactstact.emails.filter(~(Email.address.in_(emails)))
         for email_to_delete in emails_to_delete:
             email_to_delete.delete()
 
