@@ -79,6 +79,10 @@ All contacts:
 ```
 $ curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:5000/api/v1/contacts
 ```
+All contacts, paginated (default attributes: __page__: 1, __per_page__: 10):
+```
+$ curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:5000/api/v1/contacts?page=1&per_page=2
+```
 Search by email:
 ```
 $ curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:5000/api/v1/contacts?email=rysiek@gmail.com
