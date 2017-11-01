@@ -75,8 +75,13 @@ $ flask run
 The application exposes Contacts API. It can be accessed by cURL or via browser (index, show)
 
 #### Index
+All contacts:
 ```
 $ curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:5000/api/v1/contacts
+```
+Search by email:
+```
+$ curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:5000/api/v1/contacts?email=rysiek@gmail.com
 ```
 
 #### Show
