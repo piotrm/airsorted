@@ -126,6 +126,9 @@ Questionable decision that I have made is the way the emails are handled during 
 
 Another thing that may look suspicious is `from IPython import embed`. It has been used during the development to enable easy debugging.
 
+#### N+1 query issue
+Apparently SQLAlchemy offers eager loading out-of-the box, so there is no action needed (https://www.sqlalchemy.org/features.html)
+
 ### Validation
 There is almost no validation at all except for beforementioned email validation. There is no presence requirement for any particular fields for contact, nor there is any special formatting required. It may be the field for discussion. If I were to add the validation I would probably start from extending Marshmallow schemas in __model.py__ as described here: http://marshmallow.readthedocs.io/en/latest/quickstart.html#validation
 
@@ -136,7 +139,7 @@ There are two separate files with tests: __validators_test.py__ and __contacts_t
 I have used __Flask-script__ in order to prepare a mechanism for seeding the DB. It seemed to be the most reasonable solution that was available out of the box. The mechanism loads the data from __seeds.json__ file and creates objects in the DB.
 
 ## Further improvements
-~~1. Add pagination to index~~
-2. Make sure that query in index is not prone to n+1 query issue
+1. ~~Add pagination to index~~
+2. ~~Make sure that query in index is not prone to n+1 query issue~~
 3. Utilize __marshmallow-jsonapi__ (https://github.com/marshmallow-code/marshmallow-jsonapi) in order to deliver JSON:API compliant responses
 4. Replace `test.sh` with __nose__ (https://nose.readthedocs.io/en/latest/)
